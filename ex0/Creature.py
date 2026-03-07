@@ -10,9 +10,9 @@ class CreatureCard(Card):
         self.type = "Creature"
 
     def validate(self) -> bool:
-        if (not isinstance(self.attack, int) 
-           or not isinstance(self.health, int) 
-           or self.attack <= 0 
+        if (not isinstance(self.attack, int)
+           or not isinstance(self.health, int)
+           or self.attack <= 0
            or self.health <= 0):
             return False
         return True
