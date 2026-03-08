@@ -6,23 +6,31 @@ from ex3.GameEngine import GameEngine
 def main() -> None:
     print("\n=== DataDeck Game Engine ===\n")
     print("Configuring Fantasy Card Game...")
-    factory = FantasyCardFactory()
-    strategy = AggressiveStrategy()
-    print(f"Factory: {factory.__class__.__name__}")
-    print(f"Strategy: {strategy.get_strategy_name()}")
-    print(f"Available types: {factory.get_supported_types()}")
-    engine = GameEngine()
-    engine.configure_engine(factory, strategy)
-    print("\nSimulating aggressive turn...")
-    new_hand = factory.create_themed_deck(3)
-    hand = new_hand["deck"]
-    print("Hand: "
-          f"[{', '.join(f'{card.name} ({card.cost})' for card in hand)}]")
-    print("\nTurn execution:")
-    print(f"strategy: {strategy.get_strategy_name()}")
-    print(f"Actions: {engine.simulate_turn()}")
-    print("\nGame Report:")
-    print(engine.get_engine_status())
+    try:
+        factory = FantasyCardFactory()
+        strategy = AggressiveStrategy()
+        engine = GameEngine()
+        engine.configure_engine(factory, strategy)
+    except Exception as e:
+        print("Error configuring engine:", e)
+        return
+    try:
+        print(f"Factory: {factory.__class__.__name__}")
+        print(f"Strategy: {strategy.get_strategy_name()}")
+        print(f"Available types: {factory.get_supported_types()}")
+
+        print("\nSimulating aggressive turn...")
+        new_hand = factory.create_themed_deck(3)
+        hand = new_hand["deck"]
+        print("Hand: "
+              f"[{', '.join(f'{card.name} ({card.cost})' for card in hand)}]")
+        print("\nTurn execution:")
+        print(f"strategy: {strategy.get_strategy_name()}")
+        print(f"Actions: {engine.simulate_turn()}")
+        print("\nGame Report:")
+        print(engine.get_engine_status())
+    except Exception as e:
+        print("Error during simulation:", e)
     print("\nAbstract Factory + Strategy Pattern: Maximum "
           "flexibility achieved!")
 

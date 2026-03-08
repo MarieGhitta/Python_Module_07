@@ -1,4 +1,11 @@
 from abc import ABC, abstractmethod
+from enum import Enum
+
+
+class Rarity(Enum):
+    COMMON = "Common"
+    RARE = "Rare"
+    LEGENDARY = "Legendary"
 
 
 class Card(ABC):
@@ -19,5 +26,5 @@ class Card(ABC):
             return True
         return False
 
-    def str(self) -> str:
+    def __str__(self) -> str:
         return f"{self.name} ({self.cost})"

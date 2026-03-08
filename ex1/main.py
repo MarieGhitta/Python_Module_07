@@ -1,23 +1,27 @@
-from ex0.Card import Card
 from ex0.Creature import CreatureCard
 from ex1.SpellCard import SpellCard
 from ex1.ArtifactCard import ArtifactCard
 from ex1.Deck import Deck
 
+
 def main():
     print("\n=== DataDeck Deck Builder ===\n")
     print("Building deck with different card types...")
-    fire_dragon = CreatureCard("Fire Dragon", 5, "Legendery", 7, 5)
-    lightning_bolt = SpellCard("Lightning Bolt", 3, "commun",
-                               "Deal 3 damage to target")
-    mana_crystal = ArtifactCard("Mana Crystal", 4, "rare", "Permanent",
-                                "+1 mana per turn")
+    try:
+        fire_dragon = CreatureCard("Fire Dragon", 5, "Legendery", 7, 5)
+        lightning_bolt = SpellCard("Lightning Bolt", 3, "commun",
+                                   "Deal 3 damage to target")
+        mana_crystal = ArtifactCard("Mana Crystal", 4, "rare", "Permanent",
+                                    "+1 mana per turn")
+    except ValueError as e:
+        print("Error creatind cards:", e)
+        return
     deck = Deck()
     deck.add_card(lightning_bolt)
     deck.add_card(mana_crystal)
     deck.add_card(fire_dragon)
-   
-    print(deck.get_deck_stats())
+
+    print(f"Deck stats: {deck.get_deck_stats()}")
     mana_crystal.cost = 2
 
     print("\nDrawing and playing cards")
@@ -35,7 +39,7 @@ def main():
         print(f"\nDrew: {card.name} ({card_type})")
         print("Play result:", card.play(game_stat))
 
-        print("\nPolymorphism in action: Same interface,"
+    print("\nPolymorphism in action: Same interface,"
               "different card behaviors!")
 
 

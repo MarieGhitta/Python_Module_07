@@ -5,20 +5,23 @@ from ex2.Magical import Magical
 
 class EliteCard(Card, Combatable, Magical):
     def __init__(self, name: str, cost: int, rarity: str, attack_point: int,
-                 life: int, mana: int) -> None:
+                 health: int, mana: int) -> None:
         super().__init__(name, cost, rarity)
         self.attack_point = attack_point
-        self.life = life
+        self.health = health
         self.mana = mana
 
     def get_combat_stats(self) -> dict:
         infos_combat = {
             "attack": self.attack_point,
-            "life": self.life
+            "health": self.health
         }
         return infos_combat
 
     def attack(self, target) -> dict:
+        if not target:
+            raise ValueError("Target is required")
+
         attack_infos = {
             "attacker": self.name,
             "target": target,
@@ -28,11 +31,11 @@ class EliteCard(Card, Combatable, Magical):
         return attack_infos
 
     def defend(self, incoming_damage: int) -> dict:
-        damage_blocked = 2
+        damage_blocked = 3
         damage_taken = max(0, incoming_damage - damage_blocked)
 
-        self.life -= damage_taken
-        still_alive = self.life > 0
+        self.health -= damage_taken
+        still_alive = self.health > 0
 
         return {
             "defender": self.name,
@@ -53,7 +56,10 @@ class EliteCard(Card, Combatable, Magical):
         return mana_infos
 
     def cast_spell(self, spell_name: str, targets: list) -> dict:
-        self.mana -= 4
+        mana_cost = 4
+        if self.mana < mana_cost:
+            raise ValueError("Not enough mana")
+        self.mana -= mana_cost
         cast_infos = {
             "caster": self.name,
             "spell": spell_name,
